@@ -1,1 +1,3 @@
-# char_rnn_pytorch
+# RNN
+
+### 求导过程
