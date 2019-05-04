@@ -1,7 +1,7 @@
 # RNN
 
 [//]: # (Image References)
-[image1]: ./data/583155-20160819153519750-1203124108.png
+[image1]: ./data/vanillarn.bmp
 
 ### 典型网络结构
 ![vanilla rnn][image1]
