@@ -3,7 +3,7 @@
 [//]: # (Image References)
 [image1]: ./data/vanillarn.bmp
 [image2]: ./data/signal.bmp
-[image3]: ./data/formula.bmp
+[image3]: ./data/fomula.bmp
 [step1]: ./data/step1.bmp
 [step2]: ./data/step2.bmp
 [step3]: ./data/step3.bmp
