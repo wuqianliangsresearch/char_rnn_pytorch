@@ -85,6 +85,7 @@ class RNNNumpy:
 
 
 def forward_propagation(self, x):
+    print("forward,",x)
     # The total number of time steps
     T = len(x)
     # During forward propagation we save all hidden states in s because need them later.
@@ -112,27 +113,17 @@ def predict(self, x):
 RNNNumpy.predict = predict
 
 
-np.random.seed(10)
-model = RNNNumpy(vocabulary_size)
-#o, s = model.forward_propagation(X_train[10])
-#print (o.shape)
-#print (o)
-
-
-#predictions = model.predict(X_train[10])
-#print predictions.shape
-#print predictions
-
 
 def calculate_total_loss(self, x, y):
     L = 0
-    # For each sentence...
+    # For each word...
     for i in np.arange(len(y)):
         o, s = self.forward_propagation(x[i])
         # We only care about our prediction of the "correct" words
         ###########################
         # check if exp(On,Yn)
         ###########################
+        # index by label y[i]
         correct_word_predictions = o[np.arange(len(y[i])), y[i]]
 #        print(y[i],o.shape,correct_word_predictions)
         # Add to the loss based on how off we were
@@ -220,17 +211,44 @@ def train_with_sgd(model, X_train, y_train, learning_rate=0.005, nepoch=100, eva
             # One SGD step
             model.sgd_step(X_train[i], y_train[i], learning_rate)
             num_examples_seen += 1
-            
+    return model,losses
 
+
+def generate_sentence(self):
+    # We start the sentence with the start token
+    new_sentence = [word_to_index[sentence_start_token]]
+    # Repeat until we get an end token
+    while not new_sentence[-1] == word_to_index[sentence_end_token]:
+        next_word_probs,_ = model.forward_propagation(new_sentence)
+        sampled_word = word_to_index[unknown_token]
+        # We don't want to sample unknown words
+        while sampled_word == word_to_index[unknown_token]:
+            samples = np.random.multinomial(1, next_word_probs[-1])
+            sampled_word = np.argmax(samples)
+        new_sentence.append(sampled_word)
+    sentence_str = [index_to_word[x] for x in new_sentence[1:-1]]
+    return sentence_str
+
+RNNNumpy.generate_sentence = generate_sentence
 
 #np.random.seed(10)
 #model = RNNNumpy(vocabulary_size)
 #%timeit model.sgd_step(X_train[10], y_train[10], 0.005)
 
 np.random.seed(10)
-# Train on a small subset of the data to see what happens
 model = RNNNumpy(vocabulary_size)
-losses = train_with_sgd(model, X_train[:100], y_train[:100], nepoch=10, evaluate_loss_after=1)
+# Train on a small subset of the data to see what happens
+model,losses = train_with_sgd(model, X_train[:100], y_train[:100], nepoch=20, evaluate_loss_after=1)
+
+#num_sentences = 10
+#senten_min_length = 7
+#
+#for i in range(num_sentences):
+#    sent = []
+#    # We want long sentences, not sentences with one or two words
+#    while len(sent) != senten_min_length:
+#        sent = model.generate_sentence()
+#    print ("Start".join(sent))
 
 
 
