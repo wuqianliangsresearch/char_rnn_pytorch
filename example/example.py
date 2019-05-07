@@ -51,7 +51,7 @@ print(unicodeToAscii("O'Néàl"))
 
 import torch
 import torch.nn as nn
-
+from visualize import  make_dot
 class RNN(nn.Module):
     def __init__(self, input_size, hidden_size, output_size):
         super(RNN,self).__init__()
@@ -135,7 +135,6 @@ def train(category_tensor, input_line_tensor, target_line_tensor):
     
     for i in range(input_line_tensor.size(0)):
         output, hidden = rnn(category_tensor, input_line_tensor[i], hidden)
-
         l = criterion(output, target_line_tensor[i])
         loss+=l
         
@@ -159,7 +158,7 @@ def timeSince(since):
 
 
 rnn = RNN(n_letters, 128, n_letters)
-
+print(rnn)
 n_iters = 100000
 print_every = 5000
 plot_every = 500
