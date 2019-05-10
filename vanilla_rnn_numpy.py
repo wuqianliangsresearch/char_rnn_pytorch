@@ -85,7 +85,6 @@ class RNNNumpy:
 
 
 def forward_propagation(self, x):
-    print("forward,",x)
     # The total number of time steps
     T = len(x)
     # During forward propagation we save all hidden states in s because need them later.
@@ -139,8 +138,8 @@ RNNNumpy.calculate_total_loss = calculate_total_loss
 RNNNumpy.calculate_loss = calculate_loss
 
 # Limit to 1000 examples to save time
-print ("Expected Loss for random predictions: %f" % np.log(vocabulary_size))
-print ("Actual loss: %f" % model.calculate_loss(X_train[:10], y_train[:10]))
+#print ("Expected Loss for random predictions: %f" % np.log(vocabulary_size))
+#print ("Actual loss: %f" % model.calculate_loss(X_train[:10], y_train[:10]))
 
 def bptt(self, x, y):
     T = len(y)
@@ -240,15 +239,15 @@ model = RNNNumpy(vocabulary_size)
 # Train on a small subset of the data to see what happens
 model,losses = train_with_sgd(model, X_train[:100], y_train[:100], nepoch=20, evaluate_loss_after=1)
 
-#num_sentences = 10
-#senten_min_length = 7
-#
-#for i in range(num_sentences):
-#    sent = []
-#    # We want long sentences, not sentences with one or two words
-#    while len(sent) != senten_min_length:
-#        sent = model.generate_sentence()
-#    print ("Start".join(sent))
+num_sentences = 10
+senten_min_length = 7
+
+for i in range(num_sentences):
+    sent = []
+    # We want long sentences, not sentences with one or two words
+    while len(sent) != senten_min_length:
+        sent = model.generate_sentence()
+    print ("Start".join(sent))
 
 
 
