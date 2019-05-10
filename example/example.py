@@ -51,7 +51,7 @@ print(unicodeToAscii("O'Néàl"))
 
 import torch
 import torch.nn as nn
-from visualize import  make_dot
+
 class RNN(nn.Module):
     def __init__(self, input_size, hidden_size, output_size):
         super(RNN,self).__init__()

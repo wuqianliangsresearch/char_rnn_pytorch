@@ -43,4 +43,34 @@ class Net(nn.Module):
 
 
 net = Net()
-print(net)
+params = list(net.parameters())
+print(len(params))
+
+input = torch.randn(1, 1, 32, 32)
+out = net(input)
+print(out)
+
+net.zero_grad()
+out.backward(torch.randn(1, 10))
+out = net(input)
+
+output = net(input)
+target = torch.randn(10)  # a dummy target, for example
+target = target.view(1, -1)  # make it the same shape as output
+criterion = nn.MSELoss()
+
+loss = criterion(output, target)
+print(loss.item())
+
+print(loss.grad_fn)  # MSELoss
+print(loss.grad_fn.next_functions[0][0])  # Linear
+print(loss.grad_fn.next_functions[0][0].next_functions[0][0])  # ReLU
+
+
+print('conv1.bias.grad before backward')
+print(net.conv1.bias.grad)
+
+loss.backward()
+
+print('conv1.bias.grad after backward')
+print(net.conv1.bias.grad)
